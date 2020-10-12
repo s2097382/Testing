@@ -22,7 +22,7 @@ def f(x):
 
 # Create a function for g(x)
 def g(x):
-    y = math.sin(x) + 2*(x-2)/(x+1)
+    y = math.sin(x)+ 2*(x-2)/(x+1)
     return y
 
 # Create a function for h(x)
@@ -130,9 +130,56 @@ leap_year()
 
 #Q9-----------------------------------------------------------------------------
 
-days_between_dates(day1, month1, year1, day2, month2, year2)
+# Use the function you created that determines whether a given year is a leap year
+def isLeap(year):
+    year = int(year)
+    if year%4 != 0:
+        leap = False
+    elif year%100 != 0:
+        leap = True
+    elif year%400 != 0:
+        leap = False
+    else:
+        leap = True
+    return(leap)
 
-    days_in_months = [31,28,31,30,31,30,31,31,30,31,30,31]
+isLeap(1901)
+# Use the function you created calculate the number of days since 1/1/1901 given a certain date
+def daysSince(day, month, year):
+
+    days_in_months = [0,31,59,90,120,151,181,212,243,273,304,334,365]
+    days_in_months_leap = [0,31,60,91,121,152,182,213,244,274,305,335,366]
+    days_since = 0
+
+    if year == 1901:
+        days_since = days_in_months[month-1]+day
+    else:
+        for y in range(1901,year):
+            if isLeap(y):
+                days_since = days_since + 366
+            else:
+                days_since = days_since + 365
+
+    if isLeap(year):
+        days_since = days_since + days_in_months_leap[month-1]+day-1
+    else:
+        days_since = days_since + days_in_months[month-1]+day-1
+
+    return days_since
+
+
+# Create a function to calculate the number of days between two dates
+def days_between_dates(day1, month1, year1, day2, month2, year2):
+
+    days_since1 = daysSince(day1, month1, year1)
+    days_since2 = daysSince(day2, month2, year2)
+    difference = abs(days_since1-days_since2)
+
+    print(difference)
+
+
+days_between_dates(6,3,1954,27,10,1968)
+
 
 
 #Q10-----------------------------------------------------------------------------
